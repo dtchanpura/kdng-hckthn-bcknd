@@ -1,0 +1,19 @@
+<form method="POST" action="" class="form-horizontal">
+    {{ form.hidden_tag() if form.hidden_tag }}
+    {% for f in form if f.type != 'CSRFTokenField' %}
+    <div class="form-group">
+        {{ f.label(class_='form-label' ,for=f.name) }}
+        <div class="col-sm-4">
+            {{ f(class_='form-control', placeholder=f.description)}}
+        </div>
+        {% if f.errors %}
+        {% for e in f.errors %}
+        <div class="col-sm-6 error">{{ e }}</div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% endfor %}
+    <br>
+    <div class="col-sm-2"></div>
+    <button class="btn btn-default" type="submit">Submit</button>
+</form>
