@@ -7,3 +7,4 @@ MarkupSafe==0.23
 SQLAlchemy==1.0.12
 Werkzeug==0.11.4
 wheel==0.29.0
+redis==2.10.5
