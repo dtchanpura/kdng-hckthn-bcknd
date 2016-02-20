@@ -15,4 +15,7 @@ SECRET_KEY = '\xdc8\xdb\xd2\x9d\xbe?\n#vo\xe4\xb2\x17/v\x1c\x02\xb1\x11\xba\x9c\
 TMP_FOLDER = 'tmp/'
 
 VERSION = os.environ.get('APP_VERSION', 0)
+REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.environ.get('REDIS_PORT', '6379'))
+REDIS_DB = int(os.environ.get('REDIS_DB', '0'))
 # LOGO_MASK_PNG="tmp/mask.png"
