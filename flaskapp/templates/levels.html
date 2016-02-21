@@ -1,0 +1,34 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ level_name }}
+{% endblock %}
+
+{% block content %}
+{% if level_id == 1 %}
+    {% include 'levels/level1.html' %}
+{% elif level_id == 2 %}
+    {% include 'levels/level2.html' %}
+{% elif level_id == 3 %}
+    {% include 'levels/level3.html' %}
+{% elif level_id == 4 %}
+    {% include 'levels/level4.html' %}
+{% elif level_id == 5 %}
+    {% include 'levels/level5.html' %}
+{% elif level_id == 6 %}
+    {% include 'levels/level6.html' %}
+{% elif level_id == 7 %}
+    {% include 'levels/level7.html' %}
+{% elif level_id == 8 %}
+    {% include 'levels/level8.html' %}
+{% elif level_id == 9 %}
+    {% include 'levels/level9.html' %}
+{% elif level_id == 10 %}
+    {% include 'levels/level10.html' %}
+{% endif %}
+<form method="POST" >
+    <input type="text" name="pass_status">
+    <input type="submit">
+
+</form>
+{% endblock %}
