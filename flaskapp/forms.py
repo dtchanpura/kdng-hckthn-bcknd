@@ -11,11 +11,4 @@ class IntroForm(Form):
     def validate_on_submit(self):
         rv = Form.validate(self)
         # LOG
-        if not rv:
-            return False
-        users = User.query.filter(User.user_name == self.user_name.data).all()
-        if len(users) == 0:
-            flash(messages.ERROR_INVALID_LOGIN, 'danger')
-            return False
-        self.qr_data.data = users[0].qr_data
-        return True
+        return rv

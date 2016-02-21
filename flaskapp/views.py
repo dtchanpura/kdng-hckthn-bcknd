@@ -1,6 +1,7 @@
-from flask import make_response, request
+from flask import make_response, request, render_template, session, redirect, url_for
 
 from flaskapp import app
+from flaskapp.forms import IntroForm
 from flaskapp.functions import *
 
 
@@ -14,6 +15,46 @@ def version():
     response = make_response('{"version" : %s }' % app.config.get('VERSION'), 200)
     response.content_type = "application/json"
     return response
+
+
+@app.route('/intro/', methods=['GET', 'POST'])
+def intro():
+    form = IntroForm(request.form)
+    if 'session_id' in session:
+        print(session['session_id'])
+        return redirect(url_for('levels'))
+    if request.method == "POST" and form.validate_on_submit():
+        session_id = generate_random_session_id()
+        update_or_create_session(session_id, data={'level_status': 1})
+        session['session_id'] = session_id
+        session['name'] = form.user_name.data
+        return redirect(url_for('levels'))
+    return render_template('intro.html', form=form)
+
+
+@app.route('/levels/', methods=['GET', 'POST'], defaults={'level_id': None})
+@app.route('/levels/<level_id>', methods=['GET', 'POST'])
+def levels(level_id):
+    if 'session_id' not in session:
+        return redirect(url_for('intro'))
+    if request.method == 'GET' and level_id is None:
+        level = json.loads(get_session_data(session_id=session.get('session_id')))
+        level_id = level.get('level_status')
+        return render_template('levels.html', level_id=level_id, level_name="somename")
+    if request.method == 'POST' and request.form is not None:
+        pass_status = request.form.get('pass_status')
+        if "true" in pass_status.lower():
+            level = json.loads(get_session_data(session_id=session.get('session_id')))
+            level_id = level.get('level_status') + 1
+            if level_id > 10:
+                return render_template('thank_you.html', name=session.get('user_name'))
+                # remove_session_data(session_id=session.get('session_id'))
+            level['level_status'] = level_id
+            level_name = get_level_name(level_id)
+            update_or_create_session(session_id=session.get('session_id'), data=level)
+            return render_template('levels.html', level_id=level_id, level_name=level_name)
+        else:
+            return redirect(url_for('intro'))
 
 
 @app.route('/session/', methods=['GET', 'POST', 'PUT'], defaults={'session_id': None})
