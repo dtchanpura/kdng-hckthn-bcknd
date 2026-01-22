@@ -8,5 +8,5 @@ MarkupSafe==0.23
 redis==4.4.4
 SQLAlchemy>=1.0.12
 Werkzeug
-wheel==0.38.1
+wheel==0.46.2
 WTForms==2.1
